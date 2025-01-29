@@ -191,12 +191,13 @@ export const assets = {
         author_img:profile_icon
     },
     {
+      
         id:16,
-        title:"Shaping the Future of statup ecosystem in the world",
+        title:"Exploring the Evolution of social networking in the Future",
         description:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the..",
-        image:blog_pic_16,
+        image:blog_pic_15,
         date:Date.now(),
-        category:"Startup",
+        category:"Technology",
         author:"Alex Bennett",
         author_img:profile_icon
     },
