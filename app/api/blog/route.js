@@ -1,5 +1,5 @@
 import { connectDB } from "@/lib/config/db";
-import blogModel from "@/lib/models/BlogModel";
+import blogModel from "@/lib/models/BlogModel.js";
 
 
 const { NextResponse } = require("next/server");
