@@ -35,58 +35,76 @@ const Page = () => {
 
     try {
       const response = await axios.post("/api/blog", formData);
-      if (response.data.success) {
-        toast.success(response.data.message); // ✅ Correct toast usage
+    
+      // Check if the response contains the success message
+      if (response.data && response.data.message) {
+        toast.success(response.data.message); // Show the success message from the backend
+
+        // Reset the form fields
+        setData({
+          title: "",
+          description: "",
+          category: "Startup",
+          author: "John Doe",
+          author_img: "/author_img.png",
+        });
+
+        // Reset the uploaded image
+        setImage(null);
+        
       } else {
         toast.error("Error submitting blog");
       }
     } catch (error) {
       toast.error("Something went wrong!");
+      console.error("Error while submitting form:", error); // Log error details for debugging
     }
+    
   };
 
   return (
     <>
-      <form onSubmit={onSubmitHandler} className="pt-5 px-5 sm:pt-12 sm:pl-16 bg-yellow-100">
+      <form onSubmit={onSubmitHandler} className="pt-5 px-5 sm:pt-12 sm:pl-16 ">
         <p className="text-xl">Upload Thumbnail</p>
 
-        <label htmlFor="image">
-          <Image
-            className="mt-4"
-            src={!image ? assets.upload_area : URL.createObjectURL(image)}
-            width={140}
-            height={70}
-            alt="Uploaded thumbnail"
-          />
-        </label>
+        {/* <label htmlFor="image"> */}
+        <Image
+  className="mt-4 inline-block"
+  src={!image ? assets.upload_area : URL.createObjectURL(image)}
+  width={140}
+  height={70}
+  alt="Uploaded thumbnail"
+  onClick={() => document.getElementById("image").click()} // Trigger file input when image is clicked
+/>
+        {/* </label> */}
 
         <input
-          onChange={(e) => setImage(e.target.files[0])}
-          type="file"
-          id="image"
-          hidden
-          required
-        />
+  onChange={(e) => setImage(e.target.files[0])}
+  type="file"
+  id="image"
+  hidden
+  required
+/>
         <p className="text-xl mt-4">Blog title</p>
         <input
-          className="w-full sm:w-[500px] px-4 py-3 mt-4"
-          type="text"
-          placeholder="Type here"
-          required
-          name="title"
-          onChange={onChangeHandler}
-          value={data.title}
-        />
+  className="w-full sm:w-[500px] px-4 py-3 mt-4 border border-black"
+  type="text"
+  placeholder="Type here"
+  required
+  name="title"
+  onChange={onChangeHandler}
+  value={data.title}
+/>
         <p className="text-xl mt-4">Blog Description</p>
         <textarea
-          name="description"
-          onChange={onChangeHandler}
-          value={data.description}
-          className="w-full sm:w-[500px] px-4 py-3 mt-4"
-          placeholder="Write content here"
-          rows={6}
-          required
-        />
+  name="description"
+  onChange={onChangeHandler}
+  value={data.description}
+  className="w-full sm:w-[500px] px-4 py-3 mt-4 border border-black"
+  placeholder="Write content here"
+  rows={6}
+  required
+/>
         <p className="text-xl mt-4">Blog category</p>
         <select
           onChange={onChangeHandler}
