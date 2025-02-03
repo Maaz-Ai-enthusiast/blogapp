@@ -5,16 +5,37 @@ import { assets, blog_data } from '@/assets/assets';
 import Image from 'next/image';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Page = ({ params }) => {
-  console.log("params: ", params.id);
+  // console.log("params: ", params.id);
 
-  const [data, setdata] = useState(blog_data[params.id-1]);
-  console.log("selected blog data --- -------------------- > : ", data);
+  const [data, setdata] = useState("");
+  // console.log("selected blog data --- -------------------- > : ", data);
+
+
+  const fetchBlog = async () => {
+
+    try {
+      const response = await axios.get('/api/blog', {
+        params: {
+          id: params.id,
+        },
+      });
+      
+      const data = await response.data.blog;
+      setdata(data);
+      toast.success( "Blog fetched successfully");
+    } catch (error) {
+      console.error('Error fetching blog:', error);
+      toast.error( "Failed to fetch blog");
+    }
+  };
 
   useEffect(() => {
-    setdata(blog_data[Number(params.id)] || null);
-  }, [params.id]);
+   fetchBlog();
+  }, []);
 
   return (
 data?<>

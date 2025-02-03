@@ -17,15 +17,44 @@ console.log("DB connected successfully");
 
 }
 
-
+// api endpoint for getting all blogs
 export async function GET(request){
 
     await loadDb();
-return  NextResponse.json({message:"API working"});
+
+const blogId =  request.nextUrl.searchParams.get("id");
+
+if (blogId) {
+
+const blog = await blogModel.findById(blogId);
+
+if (!blog) {
+    return NextResponse.json({message:"Blog not found"}, {status:404});
+}
+else {
+    
+    return NextResponse.json({message:"Blog fetched successfully", blog:blog}, {status:200});
+
+}
+
+
+}
+else {
+
+    const blogs = await blogModel.find({});
+
+
+    return  NextResponse.json({message:"All blogs fetched successfully", blogs:blogs}, {status:200});
+}
+
+
 
 
 }
 
+
+
+// api endpoint for uploading blogs
 export async function POST(request) {
 
     await loadDb();
