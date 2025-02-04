@@ -18,7 +18,7 @@ const Page = ({ params }) => {
   const fetchBlog = async () => {
 
     try {
-      const response = await axios.get('/api/blog', {
+      const response = await axios.get('/api/blogs', {
         params: {
           id: params.id,
         },

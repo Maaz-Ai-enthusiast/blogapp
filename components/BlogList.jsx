@@ -14,7 +14,7 @@ const BlogList = () => {
   const fetchAllBlogs =  async () => {
 
     try {
-      const response = await axios.get('/api/blog');
+      const response = await axios.get('/api/blogs');
       const data = await response.data.blogs;
       setBlog_data(data);
     } catch (error) {
@@ -23,22 +23,13 @@ const BlogList = () => {
     }
   };
 
-  // const fetchFilteredBlogs = async (category) => {
-  //   try {
-  //     const response = await axios.get(`/api/blog/${category}`);
-  //     const data = await response.json();
-  //     setBlog_data(data);
-  //   } catch (error) {
-  //     console.error('Error fetching blogs:', error);
-  //     toast.error("error fetching blogs:", error);
-  //   }
-  // };
+const filteredBlogs = menu === 'All' ? blog_data : blog_data.filter((item) => item.category === menu);
 
   useEffect(() => {
     fetchAllBlogs();
   }, []);
 
-  const filteredBlogs = menu === 'All' ? blog_data : blog_data.filter((item) => item.category === menu);
+ 
 
   return (
     <div>
@@ -70,7 +61,7 @@ const BlogList = () => {
       </div>
 
       <div className="flex flex-wrap justify-around gap-1 gap-y-6 mb-16 xl:mx-24">
-        {blog_data.map((item, index) => (
+        {filteredBlogs.map((item, index) => (
           <BlogItem key={index} title={item.title} id={item._id} description={item.description} category={item.category} image={item.image} />
         ))}
       </div>

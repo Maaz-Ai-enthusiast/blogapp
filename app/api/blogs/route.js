@@ -6,6 +6,8 @@ const { NextResponse } = require("next/server");
 
 import { writeFile } from 'fs/promises';
 
+import fs from 'fs';
+
 
 
 
@@ -100,4 +102,34 @@ export async function POST(request) {
         message: "Blog created successfully",
         blogData: blogData,
     }, { status: 201 });
+}
+
+
+//  api to delete the blog
+
+export async function DELETE(request) {
+
+    await loadDb();
+
+    const blogId =await  request.nextUrl.searchParams.get("id");
+
+    if (!blogId) {
+        return NextResponse.json({ message: "Blog ID is required" }, { status: 400 });
+    }
+
+    const blog = await blogModel.findByIdAndDelete(blogId);
+
+    if (!blog) {
+        return NextResponse.json({ message: "Blog not found" }, { status: 404 });
+    }
+
+    fs.unlink(`./public/uploads${blog.image}`,()=>{
+
+    })
+    
+
+    await blogModel.findByIdAndDelete(blog);
+
+
+    return NextResponse.json({ message: "Blog deleted successfully" }, { status: 200 });
 }
