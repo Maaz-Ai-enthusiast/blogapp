@@ -1,8 +1,36 @@
+"use client"
+import axios from 'axios'
+import { useState } from 'react'
 import { assets } from '@/assets/assets'
 import React from 'react'
 import Image from 'next/image'
+import { toast } from 'react-toastify'
+
 
 const Header = () => {
+
+const [email,setEmail] = useState('')
+ 
+
+const onSubmitHander  =  async (e) => {
+
+e.preventDefault()
+
+const formData = new FormData();
+
+formData.append('email',email)
+const response =  await axios.post('/api/email',formData)
+ if(response.data.message){
+  toast.success('Email sent successfully!')
+  setEmail('')
+ }
+ else{
+  toast.error('Failed to send email!')
+ }
+
+
+}
+
   return (
     <div className='py-5 px-5 md:px-12 lg:px-28'>
       
@@ -27,10 +55,12 @@ className='flex justify-between max-w-[500px]  scale-75 sm:scale-100 mx-auto mt-
 <input
   type="email"
   placeholder="Enter your email"
+  onChange={(e) => setEmail(e.target.value)}
+  value={email}
   className="pl-10 outline-none focus:outline-none focus:ring-0"
 />
 
-<button type='submit'  className='border-1 border-black p-4 sm:px-8 active:bg-gray-600 active:text-white'>Subscribe</button>
+<button type='submit' onClick={onSubmitHander}  className='border-1 border-black p-4 sm:px-8 active:bg-gray-600 active:text-white'>Subscribe</button>
 </form>
 
 </div>

@@ -9,7 +9,14 @@ import { writeFile } from 'fs/promises';
 import fs from 'fs';
 
 
-
+export const config = {
+    api: {
+      bodyParser: {
+        sizeLimit: "5mb", // Increase the limit here
+      },
+    },
+  };
+  
 
 const loadDb = async () => {
     
@@ -126,7 +133,7 @@ export async function DELETE(request) {
     fs.unlink(`./public/uploads${blog.image}`,()=>{
 
     })
-    
+
 
     await blogModel.findByIdAndDelete(blog);
 

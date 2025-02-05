@@ -34,7 +34,7 @@ const Page = () => {
     formData.append("image", image);
 
     try {
-      const response = await axios.post("/api/blog", formData);
+      const response = await axios.post("/api/blogs", formData);
     
       // Check if the response contains the success message
       if (response.data && response.data.message) {
